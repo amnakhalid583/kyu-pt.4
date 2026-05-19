@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>desktop</title>
+
+  <!-- Font (NO backticks) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      overflow: hidden;
+      background: black;
+    }
+
+    .desktop {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      color: white;
+      background-image: url('./wallpaper.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.12);
+    }
+
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 34px;
+      backdrop-filter: blur(18px);
+      background: rgba(20,20,20,0.28);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 18px;
+      z-index: 100;
+      font-size: 13px;
+    }
+
+    .top-left,
+    .top-right {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    /* ICONS ROW (top-center) */
+    .icons{
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+    /* ICONS (clickable + names back) */
+    .icon{
+      width: 74px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: white;
+    }
+
+  .icon img{
+  width: 46px;
+  height: 46px;
+
+  object-fit: cover;
+  border-radius: 14px;
+
+  padding: 0;                 /* <- remove padding */
+  background: transparent;    /* <- remove inner white box */
+  box-shadow: 0 10px 18px rgba(0,0,0,0.22);
+}
+
+    .icon:hover img{
+      box-shadow: 0 16px 26px rgba(0,0,0,0.28);
+      transform: translateY(-1px);
+    }
+
+    .icon:active img{
+      transform: scale(0.96);
+    }
+
+    .icon p{
+      display: block;
+      margin-top: 8px;
+      font-size: 11px;
+      line-height: 1.15;
+      max-width: 74px;
+      opacity: 0.92;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .fake-icon{
+  position: absolute;
+  z-index: 2;
+}
+    .fake-icon{
+  position: absolute;
+  width: 70px;
+  text-align: center;
+  opacity: 0.82;
+}
+
+.fake-icon img{
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+}
+
+.fake-icon p{
+  margin-top: 6px;
+  font-size: 10px;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+}
+
+    /* Music widget + big icon */
+    .spotify {
+      position: absolute;
+      right: 46px;
+      top: 290px;
+      width: 280px;
+
+      backdrop-filter: blur(18px);
+      background: rgba(245,245,245,0.22);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 18px;
+      padding: 16px;
+      z-index: 20;
+    }
+
+    .spotify h3 {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    .song {
+      padding: 10px 0;
+      font-size: 13px;
+      opacity: 0.82;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .song:last-child {
+      border-bottom: none;
+    }
+/* closed by default */
+.spotify{
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+/* open state */
+.spotify.open{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.spotify-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.spotify-actions{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.player-btn{
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.12);
+  color: white;
+  cursor: pointer;
+}
+    .music-icon{
+  position: absolute;
+  right: 56px;
+  bottom: 46px;
+
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.18);
+
+  display: grid;
+  place-items: center;
+  z-index: 20;
+  cursor: pointer;
+}
+
+.music-img{
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;        /* crops extra empty space */
+}
+
+.music-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);  /* zoom in so it fills */
+  display: block;
+}
+
+    /* Notification */
+.notification{
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+
+  backdrop-filter: blur(18px);
+  background: rgba(30,30,30,0.45);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 18px;
+  z-index: 999;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.35s ease;
+}
+
+.notification.show{
+  opacity: 1;
+}
+    .notification-title{
+  font-size: 14px;      /* bigger */
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 6px;
+}
+
+.notification-message{
+  font-size: 12px;      /* smaller */
+  font-weight: 400;
+  opacity: 0.75;
+  line-height: 1.35;
+}
+    /* Fake window (kept for DO NOT OPEN password msg) */
+    .fake-window {
+      position: absolute;
+      top: 120px;
+      left: 160px;
+      width: 540px;
+      height: 360px;
+      border-radius: 24px;
+      background: rgba(28,28,28,0.5);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 200;
+    }
+
+    .window-top {
+      height: 52px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      font-size: 14px;
+    }
+
+    .window-content {
+      padding: 24px;
+      overflow-y: auto;
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.88;
+    }
+
+    /* Shutdown screen (full black + fade-in) */
+    .shutdown-screen{
+      position: absolute;
+      inset: 0;
+      background: black;
+      z-index: 5000;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      padding: 0;
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+    }
+
+    .shutdown-screen.show{
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .shutdown-copy{
+      text-align: center;
+      transition: opacity 1.2s ease;
+    }
+
+    .shutdown-text {
+      font-size: 26px;
+      font-weight: 300;
+      opacity: 0.9;
+    }
+
+    .final-text {
+      margin-top: 20px;
+      font-size: 15px;
+      opacity: 0.6;
+    }
+
+    .shutdown-button{
+  position: absolute;
+  right: 40px;
+  bottom: 34px;
+}
+
+    /* When user clicks shutdown -> fade content away (ends on plain black) */
+    .shutdown-screen.poweroff .shutdown-copy,
+    .shutdown-screen.poweroff .shutdown-button{
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="desktop">
+    <div class="overlay"></div>
+
+    <div class="topbar">
+      <div class="top-left">
+        <span>doNOTdelete</span>
+        <span>File</span>
+        <span>Edit</span>
+        <span>View</span>
+        <span>Help</span>
+      </div>
+
+      <div class="top-right">
+        <span>📶</span>
+        <span>100%</span>
+        <span id="desktopTime"></span>
+      </div>
+    </div>
+
+    <!-- Icons (replace image paths with your cute ones in ./icons/) -->
+    <div class="icons">
+<a class="icon" href="./sightings.html" style="position:absolute; top:70px; left:40px;">
+  <img src="./sightings.png">
+        <p>tiny sightings</p>
+      </a>
+
+      <a class="icon" href="./survived.html" style="position:absolute; top:170px; left:40px;">
+         <img src="./survived.png"> 
+        <p>proof survived</p>
+      </a>
+
+      <a class="icon" href="./memories-2019.html" style="position:absolute; top:270px; left:40px;">
+         <img src="./2019.png">
+        <p>2019 memories</p>
+      </a>
+
+      <a class="icon" href="./small-us.html" style="position:absolute; top:370px; left:40px;">
+         <img src="./small-us.png">
+        <p>small us</p>
+      </a>
+
+      <a class="icon" href="./future.html" style="position:absolute; top:70px; left:140px;">
+         <img src="./future.png">
+        <p>future shots</p>
+      </a>
+
+<a class="icon" href="./do-not-open.html" style="position:absolute; top:170px; left:140px;">
+  <img src="./do-not-open.png">
+  <p>DO NOT OPEN</p>
+</a>
+      <a class="icon" href="#" onclick="openCorrupted(); return false;" style="position:absolute; top:270px; left:140px;">
+         <img src="./corrupted.png">
+        <p>corrupted_file...</p>
+      </a>
+    </div>
+    <div class="fake-icon" style="top:90px; left:420px;">
+  <img src="./file.png">
+  <p>bro what even is this.png</p>
+</div>
+    <div class="fake-icon" style="top:220px; left:520px;">
+  <img src="./video.png">
+  <p>AAAAAAAA.mp4</p>
+</div>
+    <div class="fake-icon" style="top:420px; left:430px;">
+  <img src="./file.png">
+  <p>not suspicious at all</p>
+</div>
+    <div class="fake-icon" style="top:130px; left:780px;">
+  <img src="./txt.png">
+  <p>DO NOT DELETE.txt</p>
+</div>
+    <div class="fake-icon" style="top:560px; left:420px;">
+  <img src="./png.png">
+  <p>Screenshot 2044</p>
+</div>
+    <div class="fake-icon" style="top:500px; left:720px;">
+  <img src="./folder.png">
+  <p>downloaded memes</p>
+</div>
+    <div class="fake-icon" style="top:330px; left:900px;">
+  <img src="./txt.png">
+  <p>things to overthink later</p>
+</div>
+    <div class="fake-icon" style="top:580px; left:1040px;">
+  <img src="./zip.png">
+  <p>totally_normal.zip</p>
+</div>
+    <div class="fake-icon" style="top:120px; left:980px;">
+  <img src="./png.png">
+  <p>why_is_this_saved.png</p>
+</div>
+    <div class="fake-icon" style="top:470px; left:1120px;">
+  <img src="./txt.png">
+  <p>grocery list???</p>
+</div>
+
+<div class="music-icon" id="musicToggle" title="Music">
+  <div class="music-img">
+    <img src="./music.png" alt="music">
+  </div>
+</div>
+    
+<div class="spotify" id="spotifyWidget">
+  <div class="spotify-top">
+    <h3 style="margin:0;">now playing</h3>
+
+    <div class="spotify-actions">
+      <button class="player-btn" id="prevBtn" aria-label="previous">⏮</button>
+      <button class="player-btn" id="playPauseBtn" aria-label="play/pause">▶</button>
+      <button class="player-btn" id="nextBtn" aria-label="next">⏭</button>
+      <button class="player-btn" id="closeMusicBtn" aria-label="close">✕</button>
+    </div>
+  </div>
+
+  <div class="song" id="trackTitle" style="border-bottom:none; padding-bottom:0;">
+    (no track loaded)
+  </div>
+  <div class="song" id="trackArtist" style="opacity:0.7; border-bottom:none; padding-top:6px;">
+    —
+  </div>
+</div>
+
+<audio id="audioPlayer"></audio>
+<div class="notification" id="notification">
+  <div class="notification-title">system notification</div>
+  <div class="notification-message" id="notificationMessage">
+    take your time exploring.
+  </div>
+</div>
+
+    <div class="shutdown-screen" id="shutdownScreen">
+      <div class="shutdown-copy">
+        <div class="shutdown-text">you are always welcome here.</div>
+        <div class="final-text">thank you for staying.</div>
+      </div>
+
+      <button class="shutdown-button" onclick="powerOff()">shutdown</button>
+    </div>
+  </div>
+
+  <script>
+    const musicToggle = document.getElementById('musicToggle');
+const spotifyWidget = document.getElementById('spotifyWidget');
+const closeMusicBtn = document.getElementById('closeMusicBtn');
+
+const audioPlayer = document.getElementById('audioPlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+const trackTitle = document.getElementById('trackTitle');
+const trackArtist = document.getElementById('trackArtist');
+
+/* CHANGE THESE LATER */
+const playlist = [
+  { title: "Song 1", artist: "Artist", src: "./song1.mp3" },
+  { title: "Song 2", artist: "Artist", src: "./song2.mp3" },
+  { title: "Song 3", artist: "Artist", src: "./song3.mp3" },
+  { title: "Song 4", artist: "Artist", src: "./song4.mp3" },
+  { title: "Song 5", artist: "Artist", src: "./song5.mp3" }
+];
+
+let currentTrack = 0;
+
+function loadTrack(index){
+  currentTrack = (index + playlist.length) % playlist.length;
+
+  const t = playlist[currentTrack];
+  audioPlayer.src = t.src;
+
+  trackTitle.textContent = t.title;
+  trackArtist.textContent = t.artist;
+
+  playPauseBtn.textContent = '▶';
+}
+
+async function playCurrent(){
+  try {
+    await audioPlayer.play();
+    playPauseBtn.textContent = '⏸';
+  } catch {
+    // if play is blocked, user can click again after interacting
+  }
+}
+
+function pauseCurrent(){
+  audioPlayer.pause();
+  playPauseBtn.textContent = '▶';
+}
+
+function nextTrack(){
+  loadTrack(currentTrack + 1);
+  playCurrent();
+}
+
+function prevTrack(){
+  loadTrack(currentTrack - 1);
+  playCurrent();
+}
+
+/* open/close widget */
+musicToggle.addEventListener('click', () => {
+  spotifyWidget.classList.toggle('open');
+
+  // load first track when user opens it first time
+  if (!audioPlayer.src) loadTrack(0);
+});
+
+closeMusicBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  spotifyWidget.classList.remove('open');
+});
+
+playPauseBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+
+  if (!audioPlayer.src) loadTrack(0);
+
+  if (audioPlayer.paused) playCurrent();
+  else pauseCurrent();
+});
+
+nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextTrack(); });
+prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevTrack(); });
+
+/* when a song ends -> auto next */
+audioPlayer.addEventListener('ended', nextTrack);
+
+/* keep UI in sync */
+audioPlayer.addEventListener('pause', () => playPauseBtn.textContent = '▶');
+audioPlayer.addEventListener('play', () => playPauseBtn.textContent = '⏸');
+    function updateDesktopTime() {
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('desktopTime').textContent = time;
+    }
+    updateDesktopTime();
+    setInterval(updateDesktopTime, 1000);
+
+window.addEventListener('load', () => {
+  const popup = document.getElementById('notification');
+  popup.classList.add('show');
+
+  setTimeout(() => {
+    popup.classList.remove('show');
+  }, 5000);
+});
+    
+    // LAST ICON: opens full black screen (fade-in)
+    function openCorrupted() {
+      if (!explored) {
+        alert('file corrupted.');
+        return;
+      }
+      document.getElementById('shutdownScreen').classList.add('show');
+    }
+
+    // shutdown button: fade content away (ends on plain black)
+    function powerOff() {
+      document.getElementById('shutdownScreen').classList.add('poweroff');
+    }
+  </script>
+</body>
+</html>
