@@ -84,15 +84,21 @@
   .icon img{
   width: 46px;
   height: 46px;
-
   object-fit: cover;
+
   border-radius: 14px;
 
-  padding: 0;                 /* <- remove padding */
-  background: transparent;    /* <- remove inner white box */
-  box-shadow: 0 10px 18px rgba(0,0,0,0.22);
-}
+  filter:
+    brightness(0.92)
+    contrast(1.08)
+    saturate(0.9);
 
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.32),
+    0 2px 8px rgba(0,0,0,0.22);
+
+  transition: 0.25s ease;
+}
     .icon:hover img{
       box-shadow: 0 16px 26px rgba(0,0,0,0.28);
       transform: translateY(-1px);
@@ -109,7 +115,7 @@
       line-height: 1.15;
       max-width: 74px;
       opacity: 0.92;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.85);
 
       overflow: hidden;
       text-overflow: ellipsis;
@@ -125,19 +131,24 @@
   text-align: center;
   opacity: 0.82;
 }
-
 .fake-icon img{
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
-  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
-}
 
+  filter:
+    brightness(0.88)
+    contrast(1.1)
+    saturate(0.85)
+    drop-shadow(0 8px 14px rgba(0,0,0,0.35));
+
+  opacity: 0.95;
+}
 .fake-icon p{
   margin-top: 6px;
   font-size: 10px;
   line-height: 1.2;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.85);
 }
 
     /* Music widget + big icon */
